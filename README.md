@@ -1,7 +1,9 @@
 # Montgomery AI Agent
 ## Char AI Labs
 
-AI-powered civic assistant transforming Montgomery’s public datasets and real-time information into clear, accessible insights for residents.
+AI-powered civic assistant transforming Montgomery’s public datasets and real-time public information into clear, accessible civic intelligence.
+
+A resident-facing AI system designed to bridge the gap between public data and public understanding.
 
 **Challenge Stream:** Civic Access & Community Communication  
 **Live Demo:** Add Vercel link after deployment  
@@ -9,7 +11,7 @@ AI-powered civic assistant transforming Montgomery’s public datasets and real-
 
 ## Overview
 
-Montgomery AI Agent improves civic access by translating complex public datasets into conversational, contextualized insights. Residents can ask plain-language questions about housing, workforce trends, infrastructure activity, and public safety and receive clear answers grounded in aggregated city data and live public signals. The platform bridges the gap between public data availability and public understanding.
+Montgomery AI Agent improves civic access by translating complex public datasets into conversational, contextualized insights. Residents can ask plain-language questions about housing, workforce trends, infrastructure activity, and public safety, and receive clear answers grounded in aggregated city data and live public signals. The platform bridges the gap between public data availability and public understanding.
 
 ## Problem Statement
 
