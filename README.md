@@ -1,155 +1,149 @@
 # Montgomery Civic Intelligence
-## Char AI Labs
+**Char AI Labs**
 
 AI-powered civic insight platform transforming Montgomery’s open construction permit data into clear, accessible summaries for residents, city staff, and stakeholders.
 
 **Challenge Stream:** Civic Access & Community Communication  
 **Live Demo:** Add Vercel link after deployment  
-**Repository:** https://github.com/char-ai-labs/montgomery-ai-agent
+**Repository:** https://github.com/char-ai-labs/montgomery-civic-intelligence
 
-## Overview
+# Overview
 
-Montgomery AI Agent improves civic access by translating complex public datasets into conversational, contextualized insights. Residents can ask plain-language questions about housing, workforce trends, infrastructure activity, and public safety, and receive clear answers grounded in aggregated city data and live public signals. The platform bridges the gap between public data availability and public understanding.
+Montgomery Civic Intelligence converts complex public permit datasets into clear, plain-language civic insights.
 
-## Problem Statement
+The City of Montgomery publishes valuable open datasets, but interpreting raw permit records requires technical knowledge and time. This project bridges that gap by translating permit activity into readable summaries and quick metrics that help residents and city stakeholders understand development trends.
 
-The City of Montgomery provides valuable public datasets, but most residents lack the tools to interpret them meaningfully. Data is fragmented across portals, presented in technical formats, and disconnected from real-time civic context.
+Users can explore housing and commercial construction activity through guided prompts or custom questions. The system analyzes recent permit records and generates structured insights about development patterns across the city.
 
-Residents cannot easily ask questions such as:
+The goal is to make public data easier to understand, more transparent, and more useful for everyday civic awareness.
 
-*   What housing developments are underway?
-*   What workforce trends are emerging?
-*   What infrastructure changes are occurring?
-*   What public safety patterns are visible at an aggregated level?
+# Problem
 
-Without a conversational interface that translates structured data into accessible insights, public information remains underutilized, limiting transparency and civic engagement.
+Municipal open data portals provide valuable information, but most residents cannot easily interpret raw datasets.
 
-## Solution
+Construction permit records are typically presented as tables or spreadsheets. While technically accessible, they require significant effort to analyze and contextualize.
 
-Montgomery AI Agent is a resident-facing civic assistant that combines:
+Residents often want to understand questions such as:
 
-*   Structured City of Montgomery open datasets
-*   Real-time public web signals such as news, job postings, housing activity, and public announcements
-*   AI-powered natural language interpretation
-*   A clean, accessible web interface
+- Where is housing development happening?
+- What commercial construction activity is underway?
+- Are most permits new builds, repairs, or alterations?
 
-Rather than requiring users to navigate multiple portals or interpret raw datasets, the platform transforms passive public data into an interactive civic access tool.
+Without accessible tools to interpret this information, public datasets remain underutilized and civic transparency is limited.
 
-## Product Vision (Epic)
+# Solution
 
-Enable Montgomery residents to understand and engage with public city data through a conversational, accessible AI interface that combines structured datasets with real-time public information.
+Montgomery Civic Intelligence adds an AI-powered insight layer on top of the City’s open permit data.
 
-## Supporting User Stories
+Instead of navigating complex datasets, users can explore development activity through a simple interface that generates summaries and key metrics from recent permit records.
 
-**1. Conversational Access**
-As a Montgomery resident, I want to ask plain-language questions about city activity, so that I can understand housing, workforce, infrastructure, and public safety trends without navigating multiple data portals.
+The system focuses on clarity and transparency by presenting:
 
-**2. Contextualized Insights**
-As a Montgomery resident, I want city data to be presented in clear, aggregated, and contextualized form, so that I can make informed decisions without technical expertise.
+- Plain-language summaries
+- Aggregated development trends
+- Simple civic metrics
+- Source transparency indicators
 
-**3. Real-Time Civic Awareness**
-As a Montgomery community member, I want access to live public signals such as news, job postings, and development activity, so that I can understand current city dynamics alongside historical trends.
+# Key Features
 
-## User Outcomes and Jobs to Be Done
+*   AI-assisted summaries of Montgomery construction permit data
+*   Plain-language explanations of housing and commercial development trends
+*   Preset civic questions for quick exploration
+*   Overview dashboard displaying key metrics and activity summaries
+*   Transparency indicators including date coverage and geographic scope
 
-### 1. Conversational Access
+# How It Works
 
-**Jobs to Be Done**
+### Explore Data
 
-*   Enable residents to submit natural-language questions through a simple interface.
-*   Interpret user intent and map questions to relevant civic data domains.
-*   Retrieve relevant structured public datasets based on user queries.
-*   Provide clear, human-readable responses grounded in aggregated data.
-*   Surface data sources transparently to build trust and credibility.
+Users select a preset civic question or ask a custom question related to construction activity
 
-### 2. Contextualized Insights
+### AI-Assisted Summaries
 
-**Jobs to Be Done**
+The system analyzes recent permit records and produces clear summaries highlighting patterns such as development concentrations and permit types.
 
-*   Aggregate raw public datasets into understandable summaries.
-*   Present trends instead of raw data dumps.
-*   Avoid technical jargon and overly complex visualizations.
-*   Provide explanatory context alongside numerical metrics.
-*   Ensure insights are presented responsibly and without stigmatization.
+### Overview Metrics
 
-### 3. Real-Time Civic Awareness
+The platform generates quick metrics summarizing activity across residential and commercial permits.
 
-**Jobs to Be Done**
+# Data Sources
 
-*   Retrieve relevant real-time public web signals using structured web data tools.
-*   Categorize live information into civic domains such as housing, workforce, or infrastructure.
-*   Combine structured city datasets with dynamic public information.
-*   Indicate recency and source transparency for live signals.
-*   Ensure live data enhances context rather than replacing verified public datasets.
+### Main Source
+**Montgomery Open Data – Construction Permits**
 
-## Key Features
+Used to calculate:
 
-*   Natural-language civic assistant
-*   Aggregated and contextualized trend insights
-*   Clean dashboard interface
-*   Real-time civic signal integration powered by Bright Data
-*   Cloud deployment for accessibility
+- Permit counts
+- development trends
+- corridor activity patterns
+- residential vs commercial activity
 
-## Originality and Impact
+### Supplementary Context
+**Official City Pages (via Bright Data)**
 
-Most civic dashboards present static datasets. Most chatbots lack structured civic grounding.
+Bright Data infrastructure supports reliable access to public web resources when additional verification or context is needed. 
 
-Montgomery AI Agent integrates structured municipal datasets with live public web signals, creating a real-time civic intelligence layer.
+# Architecture
 
-This approach:
+**Frontend**
+Next.js web application with a responsive civic dashboard interface.
 
-*   Improves transparency
-*   Reduces information barriers
-*   Supports informed civic engagement
-*   Is replicable across municipalities with open data infrastructure
+**Backend**
+Server API routes process user prompts and retrieve structured permit data.
 
-The innovation lies in combining structured public datasets and dynamic civic signals within a single conversational interface.
+**Data Layer**
+Montgomery Open Data construction permit datasets.
 
-## Architecture and Technical Rationale
+**Infrastructure**
+Bright Data enables reliable public data retrieval
 
-The system uses a modular architecture:
+***Deployment Pipeline**
 
-1.  **Input Layer:** Natural-language user queries.
-2.  **AI Interpretation Layer:** Maps queries to relevant civic domains.
-3.  **Data Layer:** Public datasets combined with real-time web signals.
-4.  **Contextualization Layer:** Aggregates and structures insights for clarity.
-5.  **Presentation Layer:** Responsive web interface displaying conversational responses and visual summaries.
 
-**Development pipeline:**
+# Responsible AI and Ethical Use
 
-`Google Stitch` → `Antigravity IDE` → `GitHub` → `Vercel` → `Live Website`
-
-The architecture prioritizes scalability, transparency, and responsible AI usage.
-
-The design balances rapid hackathon execution with long-term extensibility.
-
-## Sustainability and Future Potential
-
-Montgomery AI Agent is designed as a scalable civic access framework.
-
-Potential pathways include:
-
-*   Municipal SaaS licensing
-*   White-label civic transparency platform
-*   Public and private partnerships
-*   API access for local institutions and media
-
-The framework can extend to additional datasets and other municipalities, supporting long-term civic utility beyond the hackathon.
-
-## Responsible AI and Ethical Use
+This product focuses on responsible civic data use. 
 
 The platform:
 
-*   Uses publicly available and authorized data sources
-*   Presents aggregated and contextualized information
-*   Avoids profiling, labeling, or predictive risk scoring
-*   Does not stigmatize neighborhoods or demographic groups
-*   Provides informational insights only
+*   Uses publicly available data sources
+*   Presents aggregated insights rather than individual records
+*   Avoids profiling or predictive risk scoring
+*   Includes transparency indicators about data coverage
+*   Encourages verification through linked official sources
 
 The goal is improved civic transparency and accessibility.
 
-## Team
+# Sustainability and Future Potential
 
-**Char AI Labs**  
-Independent civic AI initiative focused on responsible, accessible public data tools.
+Montgomery Civic Intelligence demonstrates how municipale open data can be transformed into accessible civic intelligence tools.
 
+Future extensions could include:
+
+- additional city datasets
+- expanded civic dashboards
+- multi-city deployment
+- municipal tranparency platforms
+
+# Hackathon Submission
+
+Build for **GenAI World Wide Vibes Hackathon**
+
+Challenge Stream:
+**Civic Access & Community Communication**
+
+This project demonstrates how AI can improve civic transparency by translating municipal datasets into accessible insights for everyday residents. 
+
+# Team
+
+**Char AI Labs**
+
+Independent civic AI Initiative focused on building responsible and accessible public data tools.
+
+# Source Code
+
+(update the demo link here)
+
+View the repository:
+
+https://github.com/char-ai-labs/montgomery-civic-intelligence
