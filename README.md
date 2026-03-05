@@ -127,7 +127,7 @@ Future extensions could include:
 
 # Hackathon Submission
 
-Build for **GenAI World Wide Vibes Hackathon**
+Built for **GenAI World Wide Vibes Hackathon**
 
 Challenge Stream:
 **Civic Access & Community Communication**
