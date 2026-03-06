@@ -38,8 +38,8 @@ Montgomery Civic Intelligence demonstrates how AI can transform raw civic datase
 ## Application Preview
 
 <p align="center">
-<img src="[IMAGE1](https://github.com/user-attachments/assets/772b83a8-6c62-4509-a764-ce7a7dc90f3a)" width="45%">
-<img src="[IMAGE2](https://github.com/user-attachments/assets/1bb18af1-6422-4019-bf68-5b95ce16760e)" width="45%">
+<img src="https://github.com/user-attachments/assets/772b83a8-6c62-4509-a764-ce7a7dc90f3a" width="45%">
+<img src="https://github.com/user-attachments/assets/1bb18af1-6422-4019-bf68-5b95ce16760e" width="45%">
 </p>
 
 ---
