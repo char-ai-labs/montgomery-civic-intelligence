@@ -1,15 +1,14 @@
 # Montgomery Civic Intelligence
 
+🚀 **Live Demo:** https://montgomery-civic-intelligence.vercel.app/
+
 AI-powered civic insights for Montgomery using open construction permit data.
 
 **Char AI Labs**
 
-📄 Quick Demo Guide → DEMO.md
+📄 **Quick Demo Guide** [DEMO.md](DEMO.md)
 
-**Live Demo:** 
-https://montgomery-civic-intelligence.vercel.app/ 
-
-This application is deployed and fully functional through the live demo link above.
+---
 
 **Repository:** 
 https://github.com/char-ai-labs/montgomery-civic-intelligence  
