@@ -1,15 +1,21 @@
 # Montgomery Civic Intelligence
 
-**Char AI Labs**
-
 AI-powered civic insights for Montgomery using open construction permit data.
+
+**Char AI Labs**
 
 📄 Quick Demo Guide → DEMO.md
 
-**Live Demo:** https://montgomery-civic-intelligence.vercel.app/ 
+**Live Demo:** 
+https://montgomery-civic-intelligence.vercel.app/ 
+
 This application is deployed and fully functional through the live demo link above.
-**Repository:** https://github.com/char-ai-labs/montgomery-civic-intelligence  
-**Challenge Stream:** Civic Access & Community Communication
+
+**Repository:** 
+https://github.com/char-ai-labs/montgomery-civic-intelligence  
+
+**Challenge Stream:** 
+Civic Access & Community Communication
 
 ---
 
@@ -23,10 +29,18 @@ Residents, journalists, and city stakeholders can explore housing and commercial
 
 The goal is to make public data easier to understand, more transparent, and more useful for everyday civic awareness.
 
+# Why This Matters
+
+Municipal open data portals contain valuable information but are often difficult for residents to interpret.
+
+Montgomery Civic Intelligence demonstrates how AI can transform raw civic datasets into understandable insights, helping communities stay informed about housing development, construction activity, and economic growth across their city.
+
 ## Application Preview
 
-<img width="1008" height="1264" alt="2026-03-06_11-24-03" src="https://github.com/user-attachments/assets/772b83a8-6c62-4509-a764-ce7a7dc90f3a" />
-<img width="1051" height="1011" alt="2026-03-06_11-25-15" src="https://github.com/user-attachments/assets/1bb18af1-6422-4019-bf68-5b95ce16760e" />
+<p align="center">
+<img src="[IMAGE1](https://github.com/user-attachments/assets/772b83a8-6c62-4509-a764-ce7a7dc90f3a)" width="45%">
+<img src="[IMAGE2](https://github.com/user-attachments/assets/1bb18af1-6422-4019-bf68-5b95ce16760e)" width="45%">
+</p>
 
 ---
 
@@ -63,12 +77,12 @@ The system focuses on clarity and transparency by presenting:
 
 # Key Features
 
-- AI-assisted summaries of Montgomery construction permit data  
+- AI-generated summaries of Montgomery construction permit activity  
 - Plain-language explanations of housing and commercial development trends  
-- Preset civic questions for quick exploration  
-- Custom question capability for deeper analysis  
-- Overview dashboard displaying key metrics and activity summaries  
-- Transparency indicators including date coverage and geographic scope  
+- Preset civic questions for fast exploration  
+- Custom question support for deeper analysis  
+- Civic Intelligence dashboard with key development metrics  
+- Transparency indicators showing data freshness and geographic coverage  
 
 ---
 
@@ -103,7 +117,7 @@ The platform generates quick metrics summarizing activity across residential and
 # Data Sources
 
 ### Main Source  
-**Montgomery Open Data – Construction Permits**
+**[Montgomery Open Data – Construction Permits](https://opendata.montgomeryal.gov)**
 
 Used to calculate:
 - permit counts  
@@ -118,22 +132,21 @@ Bright Data infrastructure supports reliable access to public web resources when
 
 ---
 
-# Architecture
+## Architecture
 
 **Frontend**  
-Next.js application with a responsive civic dashboard interface.
+Next.js civic dashboard interface
 
 **Backend**  
-Server API routes process user prompts and retrieve structured permit data.
+Server API routes process questions and retrieve permit data
 
 **Data Layer**  
-Montgomery Open Data construction permit datasets.
+Montgomery Open Data construction permit datasets
 
-**Infrastructure**  
-Bright Data MCP tools provide verified public web references from official city pages, meeting agendas, and municipal resources when additional context is required.
+**External Context**  
+Bright Data MCP tools retrieve verified public references from official city pages and meeting agendas
 
-**Deployment Pipeline**
-
+**Deployment**
 GitHub → Vercel → Live Web Application
 
 ---
@@ -146,7 +159,7 @@ The platform:
 
 - Uses publicly available data sources  
 - Presents aggregated insights rather than individual records  
-- Avoids profiling or predictive risk scoring  
+- Avoids predictive scoring, profiling, or automated decision-making
 - Includes transparency indicators about data coverage  
 - Encourages verification through linked official sources  
 
@@ -165,7 +178,7 @@ Future extensions could include:
 
 ---
 
-**# Hackathon Submission**
+# Hackathon Submission
 
 Built for the **GenAI Works Hackathon – March 2026**
 
@@ -176,7 +189,7 @@ This project demonstrates how AI can transform municipal open data into accessib
 
 ---
 
-**# Team**
+# Team
 
 **Char AI Labs**
 
@@ -184,7 +197,7 @@ Solo developer submission. Independent civic AI initiative focused on responsibl
 
 ---
 
-**# Source Code**
+# Source Code
 
 View the repository:
 
