@@ -29,7 +29,9 @@ Montgomery Civic Intelligence transforms Montgomery’s public construction perm
 
 While the City of Montgomery publishes valuable open datasets, interpreting raw permit records requires time, technical knowledge, and familiarity with data portals. This project bridges that gap by translating permit activity into readable summaries and simple metrics.
 
-Residents, journalists, and city stakeholders can explore housing and commercial development trends through guided prompts or custom questions. The system analyzes recent permit records and generates structured insights that help users understand development patterns across the city.
+The platform analyzes recent permit records from Montgomery’s open data portal and generates AI-assisted summaries explaining housing and commercial development activity across the city.
+
+Residents, journalists, and city stakeholders can explore development trends through guided prompts or custom questions, helping them quickly understand where construction is happening and what patterns are emerging.
 
 The goal is to make public data easier to understand, more transparent, and more useful for everyday civic awareness.
 
