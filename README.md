@@ -6,7 +6,8 @@ AI-powered civic insights for Montgomery using open construction permit data.
 
 📄 Quick Demo Guide → DEMO.md
 
-**Live Demo:** (Add Vercel link after deployment)  
+**Live Demo:** https://montgomery-civic-intelligence.vercel.app/ 
+This application is deployed and fully functional through the live demo link above.
 **Repository:** https://github.com/char-ai-labs/montgomery-civic-intelligence  
 **Challenge Stream:** Civic Access & Community Communication
 
@@ -21,6 +22,11 @@ While the City of Montgomery publishes valuable open datasets, interpreting raw 
 Residents, journalists, and city stakeholders can explore housing and commercial development trends through guided prompts or custom questions. The system analyzes recent permit records and generates structured insights that help users understand development patterns across the city.
 
 The goal is to make public data easier to understand, more transparent, and more useful for everyday civic awareness.
+
+## Application Preview
+
+<img width="1008" height="1264" alt="2026-03-06_11-24-03" src="https://github.com/user-attachments/assets/772b83a8-6c62-4509-a764-ce7a7dc90f3a" />
+<img width="1051" height="1011" alt="2026-03-06_11-25-15" src="https://github.com/user-attachments/assets/1bb18af1-6422-4019-bf68-5b95ce16760e" />
 
 ---
 
@@ -37,7 +43,6 @@ Residents often want to understand questions such as:
 - Are most permits new builds, repairs, or alterations?
 
 Without accessible tools to interpret this information, public datasets remain underutilized and civic transparency is limited.
-
 
 ---
 
@@ -67,6 +72,18 @@ The system focuses on clarity and transparency by presenting:
 
 ---
 
+# Quick Demo
+
+1. Open the live demo
+2. Select a preset civic question under **Explore Data**
+3. Review the AI-generated summary of recent permit activity
+4. Check the **Civic Intelligence Overview** dashboard for key metrics
+5. Use **Custom Question** to explore additional development trends
+
+Each response includes transparency signals such as data freshness, date coverage, and source verification links.
+
+---
+
 # How It Works
 
 ### Explore Data
@@ -81,7 +98,6 @@ The system analyzes recent permit records and produces clear summaries highlight
 
 The platform generates quick metrics summarizing activity across residential and commercial permits.
 
-
 ---
 
 # Data Sources
@@ -90,12 +106,10 @@ The platform generates quick metrics summarizing activity across residential and
 **Montgomery Open Data – Construction Permits**
 
 Used to calculate:
-
 - permit counts  
 - development trends  
 - corridor activity patterns  
 - residential vs commercial activity  
-
 
 ### Supplementary Context  
 **Official City Pages (via Bright Data)**
@@ -116,7 +130,7 @@ Server API routes process user prompts and retrieve structured permit data.
 Montgomery Open Data construction permit datasets.
 
 **Infrastructure**  
-Bright Data supports reliable public data retrieval.
+Bright Data MCP tools provide verified public web references from official city pages, meeting agendas, and municipal resources when additional context is required.
 
 **Deployment Pipeline**
 
@@ -151,7 +165,7 @@ Future extensions could include:
 
 ---
 
-# Hackathon Submission
+**# Hackathon Submission**
 
 Built for the **GenAI Works Hackathon – March 2026**
 
@@ -162,15 +176,15 @@ This project demonstrates how AI can transform municipal open data into accessib
 
 ---
 
-# Team
+**# Team**
 
 **Char AI Labs**
 
-Independent civic AI initiative focused on responsible, accessible public data tools.
+Solo developer submission. Independent civic AI initiative focused on responsible, accessible public data tools.
 
 ---
 
-# Source Code
+**# Source Code**
 
 View the repository:
 
