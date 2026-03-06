@@ -25,9 +25,11 @@ Civic Access & Community Communication
 
 # Overview
 
+## Overview
+
 Montgomery Civic Intelligence transforms Montgomery’s public construction permit data into clear, accessible civic insights.
 
-While the City of Montgomery publishes valuable open datasets, interpreting raw permit records requires time, technical knowledge, and familiarity with data portals. This project bridges that gap by translating permit activity into readable summaries and simple metrics.
+While the City of Montgomery publishes valuable open datasets, interpreting raw permit records requires time, technical knowledge, and familiarity with data portals. Montgomery Civic Intelligence addresses this gap by translating permit activity into readable summaries and simple civic metrics.
 
 The platform analyzes recent permit records from Montgomery’s open data portal and generates AI-assisted summaries explaining housing and commercial development activity across the city.
 
