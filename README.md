@@ -37,11 +37,12 @@ Montgomery Civic Intelligence demonstrates how AI can transform raw civic datase
 
 ## Application Preview
 
+Example interface views from the Montgomery Civic Intelligence platform.
+
 <p align="center">
 <img src="https://github.com/user-attachments/assets/772b83a8-6c62-4509-a764-ce7a7dc90f3a" width="45%" alt="Explore Data interface">
 <img src="https://github.com/user-attachments/assets/1bb18af1-6422-4019-bf68-5b95ce16760e" width="45%" alt="Civic Intelligence dashboard">
 </p>
-
 
 ---
 
