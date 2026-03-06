@@ -213,13 +213,18 @@ function computeNewVsRepairs(typeCounts: Record<string, number>) {
 
 function summarizePermits(
   attrsList: AnyObj[],
-  fields: { date?: string | null; type?: string | null; desc?: string | null; status?: string | null; address?: string | null },
+  fields: {
+    date?: string | null;
+    type?: string | null;
+    desc?: string | null;
+    status?: string | null;
+    address?: string | null;
+  },
   sinceMs: number | null
 ) {
   const dateField = fields.date ?? null;
   const typeField = fields.type ?? fields.desc ?? null;
 
-  // Date parse reliability check
   let parsed = 0;
   let totalWithDate = 0;
   if (dateField) {
@@ -233,7 +238,6 @@ function summarizePermits(
   const parseRate = totalWithDate > 0 ? parsed / totalWithDate : 0;
   const dateFilterReliable = Boolean(dateField) && totalWithDate >= 10 && parseRate >= 0.6;
 
-  // Apply window only if reliable
   const windowed =
     sinceMs && dateFilterReliable && dateField
       ? attrsList.filter((a) => {
@@ -242,7 +246,6 @@ function summarizePermits(
         })
       : attrsList;
 
-  // Type counts (full record for KPI math)
   const typeCountsMap = new Map<string, number>();
   for (const a of windowed) {
     const t = typeField ? normalizeStr(a[typeField]).trim() : "";
@@ -253,20 +256,17 @@ function summarizePermits(
   const typeCounts: Record<string, number> = {};
   for (const [k, v] of typeCountsMap.entries()) typeCounts[k] = v;
 
-  // Top types (for LLM)
   const topTypes = Array.from(typeCountsMap.entries())
     .sort((x, y) => y[1] - x[1])
     .slice(0, 8)
     .map(([type, count]) => ({ type, count }));
 
-  // Top corridors
   const addrField = fields.address ?? null;
   const corridors = addrField
     ? windowed.map((a) => extractStreetKey(normalizeStr(a[addrField]))).filter(Boolean)
     : [];
   const topCorridors = topCounts(corridors, 7);
 
-  // Sample records
   const sample = windowed.slice(0, 10).map((a) => {
     let dateOut = "";
     if (dateField) {
@@ -313,6 +313,29 @@ function stripTrailingPunct(url: string) {
   return url.replace(/[),.;:!?]+$/g, "");
 }
 
+function unwrapSearchRedirect(url: string) {
+  try {
+    const u = new URL(url);
+
+    if (
+      /(^|\.)google\./i.test(u.hostname) &&
+      (u.pathname === "/url" || u.pathname === "/imgres" || u.pathname === "/search")
+    ) {
+      const q = u.searchParams.get("q") || u.searchParams.get("url");
+      if (q && /^https?:\/\//i.test(q)) return stripTrailingPunct(q);
+    }
+
+    for (const key of ["q", "url", "target", "dest", "destination"]) {
+      const v = u.searchParams.get(key);
+      if (v && /^https?:\/\//i.test(v)) return stripTrailingPunct(v);
+    }
+
+    return stripTrailingPunct(url);
+  } catch {
+    return stripTrailingPunct(url);
+  }
+}
+
 function tryParseJsonFromText(text: string): any | null {
   const t = text.trim();
   if (!t) return null;
@@ -321,6 +344,29 @@ function tryParseJsonFromText(text: string): any | null {
   } catch {
     return null;
   }
+}
+
+function extractUrlsFromText(text: string): string[] {
+  if (!text) return [];
+  const matches = text.match(/https?:\/\/[^\s)"'<>]+/g) ?? [];
+  return matches.map((u) => unwrapSearchRedirect(stripTrailingPunct(u)));
+}
+
+function titleFromUrl(url: string) {
+  try {
+    const u = new URL(url);
+    const tail = `${u.hostname}${u.pathname}`.replace(/\/+$/, "");
+    return tail || url;
+  } catch {
+    return url;
+  }
+}
+
+function collectToolContentText(res: any): string[] {
+  const contentArr = Array.isArray(res?.content) ? res.content : [];
+  return contentArr
+    .map((c: any) => (typeof c?.text === "string" ? c.text : ""))
+    .filter(Boolean);
 }
 
 function extractSearchResultsFromJson(json: any): any[] {
@@ -363,6 +409,40 @@ function deepCollectResultItems(root: any): any[] {
   return out;
 }
 
+function extractSignalsFromToolResponse(res: any): ExternalSignal[] {
+  const out = new Map<string, ExternalSignal>();
+
+  const contentTexts = collectToolContentText(res);
+
+  for (const txt of contentTexts) {
+    const parsed = tryParseJsonFromText(txt);
+    if (parsed) {
+      const items = deepCollectResultItems(parsed);
+      for (const it of items) {
+        const s = toSignalFromAny(it);
+        if (!s) continue;
+        if (!out.has(s.url)) out.set(s.url, s);
+      }
+    }
+  }
+
+  for (const txt of contentTexts) {
+    const urls = extractUrlsFromText(txt);
+    for (const url of urls) {
+      if (!/^https?:\/\//i.test(url)) continue;
+      if (!out.has(url)) {
+        out.set(url, {
+          title: titleFromUrl(url),
+          url,
+          source: "",
+        });
+      }
+    }
+  }
+
+  return Array.from(out.values());
+}
+
 function isPreferredOfficial(url: string) {
   return (
     /https?:\/\/(www\.)?montgomeryal\.gov/i.test(url) ||
@@ -371,7 +451,6 @@ function isPreferredOfficial(url: string) {
   );
 }
 
-// ✅ IMPORTANT: subdomains FIRST so they don't get mislabeled as city pages
 function categorizeSignal(
   url: string
 ): "Official meetings" | "Official city pages" | "Official open data" | "Official GIS" | "Other" {
@@ -402,10 +481,18 @@ function rankSignal(s: ExternalSignal): number {
 }
 
 function toSignalFromAny(it: any): ExternalSignal | null {
-  const url = stripTrailingPunct(normalizeStr(it?.url || it?.link || it?.href || "")).trim();
+  const raw = normalizeStr(it?.url || it?.link || it?.href || "").trim();
+  const url = unwrapSearchRedirect(raw);
   if (!url || !/^https?:\/\//i.test(url)) return null;
-  const title = normalizeStr(it?.title || it?.name || it?.snippet || it?.description || "Public reference").trim();
-  const source = normalizeStr(it?.source || it?.domain || it?.displayed_link || it?.display_link || "").trim();
+
+  const title = normalizeStr(
+    it?.title || it?.name || it?.snippet || it?.description || "Public reference"
+  ).trim();
+
+  const source = normalizeStr(
+    it?.source || it?.domain || it?.displayed_link || it?.display_link || ""
+  ).trim();
+
   return { title, url, source };
 }
 
@@ -419,7 +506,11 @@ function compactExcerpt(md: string, maxChars = 240) {
   for (const line of lines) {
     const low = line.toLowerCase();
     if (low.includes("skip to") || low.includes("cookie") || low.includes("javascript")) continue;
-    if (line.length > 180 && (low.includes("departments") || low.includes("government") || low.includes("home"))) continue;
+    if (
+      line.length > 180 &&
+      (low.includes("departments") || low.includes("government") || low.includes("home"))
+    )
+      continue;
 
     picked.push(line.replace(/\s+/g, " "));
     if (picked.length >= 2) break;
@@ -436,7 +527,13 @@ async function fetchExternalSignalsBrightData(
   question: string
 ): Promise<{ items: ExternalSignal[]; excerpts: { url: string; excerpt: string }[]; diag: BdDiag }> {
   const token = process.env.BRIGHTDATA_MCP_TOKEN;
-  if (!token) return { items: [], excerpts: [], diag: { ok: false, reason: "No BRIGHTDATA_MCP_TOKEN" } };
+  if (!token) {
+    return {
+      items: [],
+      excerpts: [],
+      diag: { ok: false, reason: "No BRIGHTDATA_MCP_TOKEN" },
+    };
+  }
 
   const start = Date.now();
   const MAX_MS = 35000;
@@ -460,83 +557,49 @@ async function fetchExternalSignalsBrightData(
       console.log("✅ Bright Data MCP tools:", toolNames);
     }
 
-    // ✅ Meeting-heavy queries (more likely to land “Official meetings”)
-    const qHint = question.slice(0, 70).replace(/\s+/g, " ").trim();
+    const qHint = question.slice(0, 80).replace(/\s+/g, " ").trim();
+
     const queryStrings = [
-      `site:montgomeryal.gov agenda filetype:pdf ${qHint}`.trim(),
-      `site:montgomeryal.gov minutes ${qHint}`.trim(),
-      `site:montgomeryal.gov /calendar/ meeting ${qHint}`.trim(),
-      `site:montgomeryal.gov "City Council" agenda ${qHint}`.trim(),
-      `site:montgomeryal.gov "Planning Commission" agenda ${qHint}`.trim(),
-      `site:opendata.montgomeryal.gov permits ${qHint}`.trim(),
-      `mgmgis.montgomeryal.gov Construction_Permits FeatureServer`.trim(),
-    ].slice(0, 6); // keep it quick
+      `site:montgomeryal.gov ${qHint}`,
+      `site:montgomeryal.gov agenda minutes ${qHint}`,
+      `site:montgomeryal.gov "City Council" OR "Planning Commission" ${qHint}`,
+      `site:opendata.montgomeryal.gov permits ${qHint}`,
+      `site:mgmgis.montgomeryal.gov Construction_Permits ${qHint}`,
+    ];
 
-    console.log("✅ BD calling search_engine_batch with", queryStrings.length, "query objects");
+    console.log("✅ BD search queries:", queryStrings);
 
-    let rawItems: any[] = [];
+    const dedup = new Map<string, ExternalSignal>();
 
-    // Batch first
-    try {
-      const batchRes: any = await client.callTool({
-        name: "search_engine_batch",
-        arguments: {
-          queries: queryStrings.map((q) => ({ query: q })),
-          num_results: 6,
-          country: "us",
-          language: "en",
-        },
-      });
+    for (const q of queryStrings) {
+      if (timeLeft() < 9000) break;
 
-      const contentArr = Array.isArray(batchRes?.content) ? batchRes.content : [];
-      const c0 = contentArr[0];
-      const c0Text = typeof c0?.text === "string" ? c0.text : "";
-      const jsonFromSlots = c0?.json ?? c0?.data ?? batchRes?.json ?? batchRes?.data ?? null;
-      const jsonFromText = c0Text ? tryParseJsonFromText(c0Text) : null;
-      const json = jsonFromSlots ?? jsonFromText;
-
-      rawItems = deepCollectResultItems(json);
-    } catch (e: any) {
-      console.log("⚠️ BD batch call failed, falling back to search_engine. Reason:", e?.message ?? String(e));
-    }
-
-    // Fallback: single if batch empty and time remains
-    if (!rawItems.length && timeLeft() > 9000) {
-      for (const q of queryStrings) {
-        if (timeLeft() < 6500) break;
-
-        const singleRes: any = await client.callTool({
+      try {
+        const res: any = await client.callTool({
           name: "search_engine",
-          arguments: { query: q, num_results: 8, country: "us", language: "en" },
+          arguments: {
+            query: q,
+            num_results: 8,
+            country: "us",
+            language: "en",
+          },
         });
 
-        const contentArr = Array.isArray(singleRes?.content) ? singleRes.content : [];
-        const c0 = contentArr[0];
-        const c0Text = typeof c0?.text === "string" ? c0.text : "";
-        const json = c0Text ? tryParseJsonFromText(c0Text) : c0?.json ?? c0?.data ?? null;
+        const signals = extractSignalsFromToolResponse(res);
 
-        const items = extractSearchResultsFromJson(json);
-        if (items.length) {
-          rawItems = items;
-          break;
+        for (const s of signals) {
+          if (!isPreferredOfficial(s.url)) continue;
+          if (!dedup.has(s.url)) dedup.set(s.url, s);
         }
+      } catch (e: any) {
+        console.log("⚠️ BD search_engine failed for query:", q, e?.message ?? String(e));
       }
-    }
-
-    // Normalize + de-dupe + keep official
-    const dedup = new Map<string, ExternalSignal>();
-    for (const it of rawItems) {
-      const s = toSignalFromAny(it);
-      if (!s) continue;
-      if (!isPreferredOfficial(s.url)) continue;
-      if (!dedup.has(s.url)) dedup.set(s.url, s);
     }
 
     let items = Array.from(dedup.values());
     items.sort((a, b) => rankSignal(b) - rankSignal(a));
 
-    // De-noise: max 2 GIS links
-    const out: ExternalSignal[] = [];
+    const trimmed: ExternalSignal[] = [];
     let gisCount = 0;
     for (const it of items) {
       const cat = categorizeSignal(it.url);
@@ -544,12 +607,11 @@ async function fetchExternalSignalsBrightData(
         if (gisCount >= 2) continue;
         gisCount++;
       }
-      out.push(it);
-      if (out.length >= 7) break;
+      trimmed.push(it);
+      if (trimmed.length >= 7) break;
     }
-    items = out;
+    items = trimmed;
 
-    // Scrape up to 2 montgomeryal.gov links if time allows
     const excerptTargets = items
       .filter((x) => /https?:\/\/(www\.)?montgomeryal\.gov/i.test(x.url))
       .slice(0, 2);
@@ -558,6 +620,7 @@ async function fetchExternalSignalsBrightData(
     if (excerptTargets.length && timeLeft() > 7000) {
       for (const t of excerptTargets) {
         if (timeLeft() < 5000) break;
+
         try {
           const scrapeRes: any = await client.callTool({
             name: "scrape_as_markdown",
@@ -572,8 +635,8 @@ async function fetchExternalSignalsBrightData(
             const excerpt = compactExcerpt(md, 260);
             if (excerpt) excerpts.push({ url: t.url, excerpt });
           }
-        } catch {
-          // best-effort
+        } catch (e: any) {
+          console.log("⚠️ scrape_as_markdown failed for:", t.url, e?.message ?? String(e));
         }
       }
     }
@@ -583,17 +646,28 @@ async function fetchExternalSignalsBrightData(
       return {
         items: [],
         excerpts: [],
-        diag: { ok: false, tool: "search_engine_batch/search_engine", reason: `No items extracted (spent ${spent}ms)` },
+        diag: {
+          ok: false,
+          tool: "search_engine",
+          reason: `No official URLs extracted (spent ${spent}ms)`,
+        },
       };
     }
 
     return {
       items,
       excerpts,
-      diag: { ok: true, tool: "search_engine_batch/search_engine (+scrape_as_markdown when time allows)" },
+      diag: {
+        ok: true,
+        tool: "search_engine (+scrape_as_markdown when time allows)",
+      },
     };
   } catch (e: any) {
-    return { items: [], excerpts: [], diag: { ok: false, reason: e?.message ?? "Bright Data MCP error" } };
+    return {
+      items: [],
+      excerpts: [],
+      diag: { ok: false, reason: e?.message ?? "Bright Data MCP error" },
+    };
   } finally {
     try {
       await client.close();
@@ -628,9 +702,13 @@ function buildBrightDataFooter(
     groups[cat].push(it);
   }
 
-  const orderedCats = ["Official meetings", "Official city pages", "Official open data", "Official GIS", "Other"].filter(
-    (c) => (groups[c] ?? []).length > 0
-  );
+  const orderedCats = [
+    "Official meetings",
+    "Official city pages",
+    "Official open data",
+    "Official GIS",
+    "Other",
+  ].filter((c) => (groups[c] ?? []).length > 0);
 
   const excerptMap = new Map(excerpts.map((e) => [e.url, e.excerpt] as const));
 
@@ -658,7 +736,6 @@ export async function POST(req: Request) {
       return NextResponse.json({ answer: "No question provided." }, { status: 400 });
     }
 
-    // ✅ Logs requested
     console.log("✅ /api/assistant HIT");
     console.log("✅ BD token present?", !!process.env.BRIGHTDATA_MCP_TOKEN);
 
@@ -671,7 +748,6 @@ export async function POST(req: Request) {
 
     const vertical = inferVertical(question);
 
-    // Bright Data enrichment (best-effort)
     const bd = tokenPresent
       ? await fetchExternalSignalsBrightData(question)
       : { items: [], excerpts: [], diag: { ok: false, reason: "No token" as string } };
@@ -728,28 +804,52 @@ export async function POST(req: Request) {
       ]);
 
       const statusField = chooseBestField(fieldNames, ["status", "permit_status", "current_status", "state"]);
-      const addressField = chooseBestField(fieldNames, ["address", "site_address", "full_address", "street", "location"]);
+      const addressField = chooseBestField(fieldNames, [
+        "address",
+        "site_address",
+        "full_address",
+        "street",
+        "location",
+      ]);
 
       const data: any = await queryLayer(0, 800, dateField);
       const features: any[] = Array.isArray(data?.features) ? data.features : [];
-      const attrsList: AnyObj[] = features.map((f) => f?.attributes).filter((a) => a && typeof a === "object");
+      const attrsList: AnyObj[] = features
+        .map((f) => f?.attributes)
+        .filter((a) => a && typeof a === "object");
 
       const filteredByCity = addressField
         ? attrsList.filter((a) => normalizeStr(a[addressField]).toLowerCase().includes("montgomery"))
         : attrsList;
 
-      const residentialAll = filteredByCity.filter((a) => isResidentialLikely(a, typeField, descField));
-      const commercialAll = filteredByCity.filter((a) => isCommercialLikely(a, typeField, descField));
+      const residentialAll = filteredByCity.filter((a) =>
+        isResidentialLikely(a, typeField, descField)
+      );
+      const commercialAll = filteredByCity.filter((a) =>
+        isCommercialLikely(a, typeField, descField)
+      );
 
       const residentialSummary = summarizePermits(
         residentialAll,
-        { date: dateField, type: typeField, desc: descField, status: statusField, address: addressField },
+        {
+          date: dateField,
+          type: typeField,
+          desc: descField,
+          status: statusField,
+          address: addressField,
+        },
         sinceMs
       );
 
       const commercialSummary = summarizePermits(
         commercialAll,
-        { date: dateField, type: typeField, desc: descField, status: statusField, address: addressField },
+        {
+          date: dateField,
+          type: typeField,
+          desc: descField,
+          status: statusField,
+          address: addressField,
+        },
         sinceMs
       );
 
@@ -777,8 +877,12 @@ export async function POST(req: Request) {
         `VERTICAL REQUESTED: ${vertical}\n\n` +
         `DATE FILTER RELIABILITY:\n` +
         `- dateField: ${dateField ?? "(none)"}\n` +
-        `- parse success rate (sample): ${(residentialSummary.dateParseRate * 100).toFixed(0)}% over ${residentialSummary.dateSamplesChecked} non-empty values\n` +
-        `- date-window filter applied: ${residentialSummary.dateFilterReliable ? "YES" : "NO (not reliable)"}\n\n` +
+        `- parse success rate (sample): ${(residentialSummary.dateParseRate * 100).toFixed(
+          0
+        )}% over ${residentialSummary.dateSamplesChecked} non-empty values\n` +
+        `- date-window filter applied: ${
+          residentialSummary.dateFilterReliable ? "YES" : "NO (not reliable)"
+        }\n\n` +
         `RESIDENTIAL-LIKELY (filtered to address containing "Montgomery" when possible):\n` +
         `- Count (windowed if reliable): ${residentialSummary.count}\n` +
         `- Top types: ${JSON.stringify(residentialSummary.topTypes)}\n` +
@@ -794,7 +898,13 @@ export async function POST(req: Request) {
         `Live permit data error: ${e?.message ?? String(e)}\n`;
     }
 
-    const brightDataFooter = buildBrightDataFooter(bd.items, bd.excerpts, tokenPresent, pulledAtUtc, bd.diag);
+    const brightDataFooter = buildBrightDataFooter(
+      bd.items,
+      bd.excerpts,
+      tokenPresent,
+      pulledAtUtc,
+      bd.diag
+    );
 
     const systemPrompt = `
 You are a civic intelligence assistant for Montgomery, Alabama.
@@ -835,12 +945,11 @@ Answer using the required format.
       ],
     });
 
-    const baseAnswer = completion.choices?.[0]?.message?.content ?? "No answer generated.";
+    const baseAnswer =
+      completion.choices?.[0]?.message?.content ?? "No answer generated.";
 
-    // Keep sponsor footer visible in the answer text
     const finalAnswer = `${baseAnswer}\n\n---\n${brightDataFooter}`;
 
-    // ✅ NEW: return structured KPI data for Civic Intelligence tab
     return NextResponse.json({
       answer: finalAnswer,
       kpis,
