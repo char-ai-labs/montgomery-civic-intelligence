@@ -1,0 +1,272 @@
+@import "tailwindcss";
+
+/* ===============================
+   Base Theme Tokens
+================================= */
+:root {
+  --background: #ffffff;
+  --foreground: #002b5c; /* Navy for headings */
+
+  --border: #d3d3d3; /* Light gray borders */
+  --muted: #6c757d; /* Gray for muted */
+  --muted-2: #adb5bd; /* Lighter gray */
+  --panel: #ffffff; /* White background for panels */
+  --panel-soft: #f8f9fa; /* Light gray for soft panels */
+  --hero-top: #f8f9fb; /* Light hero gradient top */
+  --link-color: #007ac2; /* Blue for links */
+}
+
+/* Tailwind v4 theme mapping */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* Dark mode (optional, but keep for future-proofing) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+
+    --border: #242424;
+    --muted: #a1a1aa;
+    --muted-2: #c7c7cf;
+    --panel: #0f0f10;
+    --panel-soft: #111113;
+    --hero-top: #121214;
+  }
+}
+
+/* ===============================
+   Global Base Styles
+================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+}
+
+a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+p {
+  margin: 0 0 12px 0;
+}
+
+/* Reset browser list weirdness globally */
+ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+li {
+  margin: 6px 0;
+}
+
+/* ===============================
+   Portal Layout Styles
+   (ArcGIS Hub-inspired, with accessibility tweaks)
+================================= */
+
+.portal-wrap {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 18px 20px 40px;
+}
+
+.portal-hero {
+  padding: 22px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: linear-gradient(180deg, var(--hero-top) 0%, var(--panel) 100%);
+}
+
+.portal-title {
+  font-size: 34px;
+  line-height: 1.15;
+  margin: 0 0 10px;
+}
+
+.portal-subtitle {
+  margin: 0;
+  color: #333333; /* Dark gray for body text */
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.portal-section {
+  margin-top: 22px;
+}
+
+.portal-section h2 {
+  font-size: 20px;
+  margin: 0 0 14px;
+}
+
+.portal-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 12px;
+}
+
+.portal-card {
+  grid-column: span 12;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--panel);
+  padding: 16px;
+}
+
+.portal-card p {
+  margin: 6px 0 0;
+  color: #333333; /* Dark gray for body text */
+}
+
+@media (min-width: 900px) {
+  .portal-card.span-6 {
+    grid-column: span 6;
+  }
+
+  .portal-card.span-4 {
+    grid-column: span 4;
+  }
+}
+
+.portal-kicker {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin: 0 0 8px;
+}
+
+.portal-muted {
+  color: #333333; /* Dark gray for body text */
+  font-size: 13px;
+  margin: 10px 0 0;
+}
+
+.portal-link {
+  display: inline-block;
+  margin-top: 10px;
+  font-weight: 600;
+  color: var(--link-color);
+}
+
+.portal-link:hover {
+  text-decoration: underline;
+}
+
+/* ===============================
+   Meta / Timestamp pill (mobile-safe)
+================================= */
+.meta-pill {
+  font-size: 12px;
+  color: var(--muted);
+  background: var(--panel-soft);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 6px 10px;
+
+  /* critical for mobile wrap */
+  display: inline-block;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+@media (max-width: 520px) {
+  .meta-pill {
+    display: block;
+    width: 100%;
+  }
+}
+
+/* ===============================
+   About Page: Architecture Fix
+================================= */
+
+/* Prevent odd indentation inside architecture card */
+.about-architecture ul {
+  margin: 0;
+  padding-left: 18px; /* controlled, consistent indent */
+}
+
+.about-architecture li {
+  margin: 6px 0;
+  line-height: 1.6;
+}
+
+/* ===============================
+   Loading / Progress Styles
+================================= */
+
+/* Indeterminate progress bar */
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: rgba(0, 0, 0, 0.06);
+  border-radius: 999px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-bar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  transform: translateX(-100%);
+  background: rgba(0, 0, 0, 0.22);
+  border-radius: 999px;
+  animation: progress-indeterminate 1.1s ease-in-out infinite;
+}
+
+@keyframes progress-indeterminate {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(260%);
+  }
+}
+
+.loading-note {
+  margin-top: 10px;
+  font-size: 13px;
+  color: #333333; /* Dark gray for body text */
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
