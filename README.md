@@ -42,6 +42,8 @@ Montgomery Civic Intelligence demonstrates how AI can transform raw civic datase
 <img src="https://github.com/user-attachments/assets/1bb18af1-6422-4019-bf68-5b95ce16760e" width="45%">
 </p>
 
+<img src="URL" width="45%" alt="Civic Intelligence dashboard">
+
 ---
 
 # Problem
