@@ -1,12 +1,17 @@
 # Montgomery Civic Intelligence
 
-🚀 **Live Demo:** https://montgomery-civic-intelligence.vercel.app/
+[![Live Demo](https://img.shields.io/badge/Live-Demo-green)](https://montgomery-civic-intelligence.vercel.app/)
+[![GenAI Works](https://img.shields.io/badge/GenAI%20Works-Hackathon-blue)]()
+[![Next.js](https://img.shields.io/badge/Built%20with-Next.js-black)]()
+[![Status](https://img.shields.io/badge/Status-Active-success)]()
 
 AI-powered civic insights for Montgomery using open construction permit data.
 
+🚀 **Live Demo:** https://montgomery-civic-intelligence.vercel.app/
+
 **Char AI Labs**
 
-📄 **Quick Demo Guide** [DEMO.md](DEMO.md)
+🧭 **Quick Demo Guide:** [DEMO.md](DEMO.md)
 
 ---
 
