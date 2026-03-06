@@ -403,7 +403,7 @@ export default function ExploreDataPage() {
 
   const resultsRef = useRef<HTMLElement | null>(null);
 
-  // ✅ allow /assistant?tab=overview to open the Overview tab
+  // allow /assistant?tab=overview to open the Overview tab
   useEffect(() => {
     if (typeof window === "undefined") return;
     const params = new URLSearchParams(window.location.search);
@@ -411,15 +411,11 @@ export default function ExploreDataPage() {
     if (t === "overview") setTab("overview");
   }, []);
 
-  // ✅ simple, safe accordion state
-  const [openSections, setOpenSections] = useState<Record<string, boolean>>({
-    "Housing & Development": true,
-    "Commercial & Economic Activity": false,
-    "Quality & Methods": false,
-  });
+  // single-open accordion: Housing starts open by default
+  const [openSection, setOpenSection] = useState<Preset["section"]>("Housing & Development");
 
-  function toggleSection(title: string) {
-    setOpenSections((prev) => ({ ...prev, [title]: !prev[title] }));
+  function toggleSection(title: Preset["section"]) {
+    setOpenSection(title);
   }
 
   function scrollToResults() {
@@ -437,7 +433,6 @@ export default function ExploreDataPage() {
       return;
     }
 
-    // Keep Explore tab selected for results context
     setTab("explore");
     scrollToResults();
     setActivePresetId(presetId ?? "custom");
@@ -495,12 +490,12 @@ export default function ExploreDataPage() {
     description,
     items,
   }: {
-    title: string;
+    title: Preset["section"];
     icon: string;
     description: string;
     items: Preset[];
   }) {
-    const isOpen = openSections[title] ?? true;
+    const isOpen = openSection === title;
     const count = items.length;
     const disabled = loading;
 
@@ -680,12 +675,10 @@ export default function ExploreDataPage() {
         h1, h2 { color: var(--foreground); }
         button:focus, textarea:focus { outline: 2px solid #007ac2; outline-offset: 2px; }
 
-        /* Subtle hover polish */
         .run-btn:hover { box-shadow: 0 8px 18px rgba(0,0,0,0.10); transform: translateY(-1px); }
         .run-btn:active { transform: translateY(0px); box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
         .accordion-header:hover { background: rgba(0,0,0,0.02); }
 
-        /* A small helper class for the custom CTA */
         .primary-cta {
           padding: 12px 16px;
           border-radius: 12px;
@@ -719,7 +712,6 @@ export default function ExploreDataPage() {
           <TabButton active={tab === "overview"} label="Overview" onClick={() => setTab("overview")} />
         </div>
 
-        {/* OVERVIEW TAB */}
         {tab === "overview" ? (
           <section
             style={{
@@ -833,10 +825,8 @@ export default function ExploreDataPage() {
           </section>
         ) : null}
 
-        {/* EXPLORE TAB */}
         {tab === "explore" ? (
           <>
-            {/* ✅ Extra helper line (clarifies presets vs custom) */}
             <div
               style={{
                 border: "1px solid var(--border)",
@@ -855,7 +845,6 @@ export default function ExploreDataPage() {
               </div>
             </div>
 
-            {/* ✅ Accordion sections with icons + counts */}
             <Section
               title="Housing & Development"
               icon="🏠"
@@ -877,7 +866,6 @@ export default function ExploreDataPage() {
               items={qualityItems}
             />
 
-            {/* ✅ Featured Custom Question CTA */}
             <section
               style={{
                 marginBottom: 16,
@@ -961,7 +949,6 @@ export default function ExploreDataPage() {
               )}
             </section>
 
-            {/* RESULTS */}
             <section
               ref={(el) => {
                 resultsRef.current = el;
