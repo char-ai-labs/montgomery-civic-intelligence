@@ -1,5 +1,7 @@
 export default function AboutPage() {
-  const githubUrl = process.env.NEXT_PUBLIC_GITHUB_URL;
+  const githubUrl =
+    process.env.NEXT_PUBLIC_GITHUB_URL ||
+    "https://github.com/char-ai-labs/montgomery-civic-intelligence";
 
   const InlineIcon = ({ symbol, label }: { symbol: string; label: string }) => (
     <span
@@ -70,10 +72,7 @@ export default function AboutPage() {
       `}</style>
 
       <main className="portal-wrap">
-
-        <h1 style={{ fontSize: 36, margin: "6px 0 12px" }}>
-          About
-        </h1>
+        <h1 style={{ fontSize: 36, margin: "6px 0 12px" }}>About</h1>
 
         <div
           style={{
@@ -92,7 +91,6 @@ export default function AboutPage() {
         </div>
 
         {/* DATA SOURCES */}
-
         <section style={{ marginTop: 10 }}>
           <SectionTitle icon="🗄️" iconLabel="Database">
             Data sources
@@ -152,7 +150,6 @@ export default function AboutPage() {
         </section>
 
         {/* HOW IT WORKS */}
-
         <section style={{ marginTop: 24 }}>
           <SectionTitle icon="✨" iconLabel="Sparkles">
             How it works
@@ -167,9 +164,7 @@ export default function AboutPage() {
             }}
           >
             <div style={{ border: "1px solid var(--border)", borderRadius: 14, padding: 16 }}>
-              <div style={{ fontWeight: 900, marginBottom: 6, fontSize: 16 }}>
-                Explore
-              </div>
+              <div style={{ fontWeight: 900, marginBottom: 6, fontSize: 16 }}>Explore</div>
 
               <div style={{ fontSize: 15, color: "#333333" }}>
                 Pick a housing or commercial question to analyze recent permits.
@@ -177,9 +172,7 @@ export default function AboutPage() {
             </div>
 
             <div style={{ border: "1px solid var(--border)", borderRadius: 14, padding: 16 }}>
-              <div style={{ fontWeight: 900, marginBottom: 6, fontSize: 16 }}>
-                Summarize
-              </div>
+              <div style={{ fontWeight: 900, marginBottom: 6, fontSize: 16 }}>Summarize</div>
 
               <div style={{ fontSize: 15, color: "#333333" }}>
                 AI produces plain-language insights (busy corridors, new vs repairs).
@@ -187,9 +180,7 @@ export default function AboutPage() {
             </div>
 
             <div style={{ border: "1px solid var(--border)", borderRadius: 14, padding: 16 }}>
-              <div style={{ fontWeight: 900, marginBottom: 6, fontSize: 16 }}>
-                Quick Stats
-              </div>
+              <div style={{ fontWeight: 900, marginBottom: 6, fontSize: 16 }}>Quick Stats</div>
 
               <div style={{ fontSize: 15, color: "#333333" }}>
                 The Overview tab shows key KPIs generated from the same data.
@@ -199,7 +190,6 @@ export default function AboutPage() {
         </section>
 
         {/* ARCHITECTURE */}
-
         <section style={{ marginTop: 24 }}>
           <SectionTitle icon="⚙️" iconLabel="Architecture">
             Architecture
@@ -217,13 +207,14 @@ export default function AboutPage() {
             <ul className="bullets">
               <li>Next.js app with Explore workflows and an Overview dashboard.</li>
               <li>Server API queries public sources and returns structured results.</li>
-              <li>Responses include transparency notes (date-window reliability + coverage limits).</li>
+              <li>
+                Responses include transparency notes (date-window reliability + coverage limits).
+              </li>
             </ul>
           </div>
         </section>
 
         {/* NOTES */}
-
         <section style={{ marginTop: 24 }}>
           <SectionTitle icon="⚠️" iconLabel="Warning">
             Notes and limitations
@@ -239,15 +230,19 @@ export default function AboutPage() {
             }}
           >
             <ul className="bullets">
-              <li>Permits reflect <b>approvals</b>, not completed construction.</li>
-              <li>If a strict time window can’t be enforced, results fall back to the most recent records.</li>
+              <li>
+                Permits reflect <b>approvals</b>, not completed construction.
+              </li>
+              <li>
+                If a strict time window can’t be enforced, results fall back to the most recent
+                records.
+              </li>
               <li>Use linked city sources to verify named projects.</li>
             </ul>
           </div>
         </section>
 
         {/* SOURCE CODE */}
-
         <section style={{ marginTop: 24 }}>
           <SectionTitle icon="💻" iconLabel="Source code">
             Source code
@@ -262,32 +257,36 @@ export default function AboutPage() {
               background: "var(--panel)",
             }}
           >
-            {githubUrl ? (
-              <a
-                href={githubUrl}
-                target="_blank"
-                rel="noreferrer"
-                style={{
-                  background: "#0b2e59",
-                  color: "#ffffff",
-                  padding: "10px 16px",
-                  borderRadius: 8,
-                  fontSize: 15,
-                  fontWeight: 700,
-                  textDecoration: "none",
-                  display: "inline-block",
-                }}
-              >
-                View source code on GitHub →
-              </a>
-            ) : (
-              <div style={{ fontSize: 15 }}>
-                (Optional) Set <b>NEXT_PUBLIC_GITHUB_URL</b> in <b>.env.local</b> to show a GitHub link here.
-              </div>
-            )}
+            <p
+              style={{
+                margin: "0 0 12px",
+                fontSize: 15,
+                lineHeight: 1.6,
+                color: "#333333",
+              }}
+            >
+              View the project repository for implementation details, setup, and ongoing updates.
+            </p>
+
+            <a
+              href={githubUrl}
+              target="_blank"
+              rel="noreferrer"
+              style={{
+                background: "#0b2e59",
+                color: "#ffffff",
+                padding: "10px 16px",
+                borderRadius: 8,
+                fontSize: 15,
+                fontWeight: 700,
+                textDecoration: "none",
+                display: "inline-block",
+              }}
+            >
+              View source code on GitHub →
+            </a>
           </div>
         </section>
-
       </main>
     </>
   );
