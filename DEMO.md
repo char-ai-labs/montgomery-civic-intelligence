@@ -1,17 +1,25 @@
 # Montgomery Civic Intelligence — Demo Guide
 
-Live Demo:
+## 🎥 Demo Video (4 minutes)
+
+Watch the full demonstration here:
+
+loom.com/share/b9e24777f4ff4443ae24f32110382986
+
+---
+
+## Live Application:
 https://montgomery-civic-intelligence.vercel.app/
 
 This demo takes about **60–90 seconds** and shows how Montgomery Civic Intelligence transforms public permit data into clear civic insights.
 
 ---
 
-# Step 1 — Explore Housing Development
+## Step 1 — Explore Housing Development
 
 Open the live application and select:
 
-**Explore Data → Housing & Development → Housing activity (last 60 days)**
+Explore Data → Housing & Development → Housing activity (last 60 days)
 
 The system will generate an AI summary explaining:
 
@@ -27,7 +35,7 @@ The response includes transparency indicators such as:
 
 ---
 
-# Step 2 — Review Civic Intelligence Overview
+## Step 2 — Review Civic Intelligence Overview
 
 Click **Overview** at the top of the page.
 
@@ -42,7 +50,7 @@ These metrics are generated directly from Montgomery's open permit dataset.
 
 ---
 
-# Step 3 — View Source Verification
+## Step 3 — View Source Verification
 
 Scroll to the **External verification sources** section below the AI response.
 
@@ -56,7 +64,7 @@ This allows users to verify projects and civic activity through official public 
 
 ---
 
-# Step 4 — Ask a Custom Question
+## Step 4 — Ask a Custom Question
 
 Use **Ask a custom question** and try:
 
@@ -68,7 +76,7 @@ The AI will analyze recent permit data and produce a structured civic summary.
 
 ---
 
-# What This Demonstrates
+## What This Demonstrates
 
 Montgomery Civic Intelligence shows how AI can transform municipal open data into understandable civic insights.
 
@@ -81,9 +89,8 @@ The platform helps residents quickly understand:
 
 ---
 
-# Built For
+## Built For
 
 **GenAI Works Hackathon — March 2026**
 
-Challenge Stream:
-Civic Access & Community Communication
+Challenge Stream: Civic Access & Community Communication
