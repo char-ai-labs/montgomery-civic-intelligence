@@ -1,17 +1,23 @@
 # Montgomery Civic Intelligence
 
-![Live Demo](https://img.shields.io/badge/Live-Demo-green)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-green)](https://montgomery-civic-intelligence.vercel.app/)
 ![GenAI Works](https://img.shields.io/badge/GenAI%20Works-Hackathon-blue)
 ![Next.js](https://img.shields.io/badge/Built%20with-Next.js-black)
 ![Status](https://img.shields.io/badge/Status-Active-success)
 
 AI-powered civic insights for Montgomery using open construction permit data.
 
-🚀 **Live Demo:** https://montgomery-civic-intelligence.vercel.app/
+## 🎥 Demo Video
+▶️ **Watch the Montgomery Civic Intelligence Demo (4 minutes)**  
+https://www.loom.com/share/b9e24777f4ff4443ae24f32110382986
 
-**Char AI Labs**
+
+## 🌐 Live Application **
+https://montgomery-civic-intelligence.vercel.app/
 
 🧭 **Quick Demo Guide:** [DEMO.md](DEMO.md)
+
+**Char AI Labs**
 
 ---
 
@@ -22,8 +28,6 @@ https://github.com/char-ai-labs/montgomery-civic-intelligence
 Civic Access & Community Communication
 
 ---
-
-# Overview
 
 ## Overview
 
@@ -54,7 +58,7 @@ Example interface views from the Montgomery Civic Intelligence platform.
 
 ---
 
-# Problem
+## Problem
 
 Municipal open data portals provide valuable information, but most residents cannot easily interpret raw datasets.
 
@@ -70,7 +74,7 @@ Without accessible tools to interpret this information, public datasets remain u
 
 ---
 
-# Solution
+## Solution
 
 Montgomery Civic Intelligence adds an AI-powered insight layer on top of the City’s open permit data.
 
