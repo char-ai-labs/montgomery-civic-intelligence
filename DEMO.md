@@ -1,10 +1,9 @@
 # Montgomery Civic Intelligence — Demo Guide
 
-## 🎥 Demo Video (4 minutes)
+## 🎥 Demo Video
 
-Watch the full demonstration here:
-
-loom.com/share/b9e24777f4ff4443ae24f32110382986
+▶️ **Watch the Montgomery Civic Intelligence Demo (4 minutes)**  
+[View the demo](loom.com/share/b9e24777f4ff4443ae24f32110382986)
 
 ---
 
