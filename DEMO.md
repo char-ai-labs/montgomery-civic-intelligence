@@ -3,7 +3,7 @@
 ## 🎥 Demo Video
 
 ▶️ **Watch the Montgomery Civic Intelligence Demo (4 minutes)**  
-[View the demo]([loom.com/share/b9e24777f4ff4443ae24f32110382986](https://www.loom.com/share/b9e24777f4ff4443ae24f32110382986))
+[View the demo](https://www.loom.com/share/b9e24777f4ff4443ae24f32110382986))
 
 ---
 
