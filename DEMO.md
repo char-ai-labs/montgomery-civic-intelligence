@@ -7,7 +7,7 @@
 
 ---
 
-## Live Application:
+## 🌐 Live Application
 https://montgomery-civic-intelligence.vercel.app/
 
 This demo takes about **60–90 seconds** and shows how Montgomery Civic Intelligence transforms public permit data into clear civic insights.
