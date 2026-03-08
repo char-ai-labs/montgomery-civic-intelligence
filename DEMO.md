@@ -7,7 +7,7 @@
 
 ---
 
-## 🌐 Live Application
+## 🌐 Live Demo Application
 https://montgomery-civic-intelligence.vercel.app/
 
 Montgomery Civic Intelligence helps residents and stakeholders understand local development activity by turning Montgomery’s public permit data into clear civic insights, simple metrics, and transparent source-backed summaries.
