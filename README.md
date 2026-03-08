@@ -8,11 +8,11 @@
 AI-powered civic insights for Montgomery using open construction permit data.
 
 ## 🎥 Demo Video
+
 ▶️ **Watch the Montgomery Civic Intelligence Demo (4 minutes)**  
-https://www.loom.com/share/b9e24777f4ff4443ae24f32110382986
+[View the demo](https://www.loom.com/share/b9e24777f4ff4443ae24f32110382986)
 
-
-## 🌐 Live Application **
+## 🌐 Live Application
 https://montgomery-civic-intelligence.vercel.app/
 
 🧭 **Quick Demo Guide:** [DEMO.md](DEMO.md)
