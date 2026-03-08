@@ -84,9 +84,9 @@ export default function AboutPage() {
           }}
         >
           <p style={{ margin: 0, fontSize: 15, lineHeight: 1.65 }}>
-            Montgomery Civic Intelligence turns public permit data into clear insights on housing
-            and commercial activity, helping residents and city staff spot trends quickly. Every
-            response includes transparency signals like date reliability and geographic coverage.
+            Montgomery Civic Intelligence is an AI-powered civic intelligence project that turns
+            public permit data into clear insights on housing and commercial activity, helping
+            residents and city stakeholders quickly understand development trends.
           </p>
         </div>
 
@@ -142,7 +142,8 @@ export default function AboutPage() {
               </div>
 
               <div style={{ fontSize: 15, lineHeight: 1.6, color: "#333333" }}>
-                Adds planning/council references and verification links for named projects
+                Provides access to official city pages and public references that help verify or
+                add context to development activity mentioned in the analysis.
                 <span style={{ color: "var(--muted)" }}> (when available)</span>.
               </div>
             </div>
@@ -175,7 +176,8 @@ export default function AboutPage() {
               <div style={{ fontWeight: 900, marginBottom: 6, fontSize: 16 }}>Summarize</div>
 
               <div style={{ fontSize: 15, color: "#333333" }}>
-                AI produces plain-language insights (busy corridors, new vs repairs).
+                AI generates plain-language summaries highlighting development activity, such as
+                busy corridors and permit type trends.
               </div>
             </div>
 
@@ -206,7 +208,10 @@ export default function AboutPage() {
           >
             <ul className="bullets">
               <li>Next.js app with Explore workflows and an Overview dashboard.</li>
-              <li>Server API queries public sources and returns structured results.</li>
+              <li>
+                Server API routes retrieve permit data, generate structured summaries, and return
+                civic insight responses.
+              </li>
               <li>
                 Responses include transparency notes (date-window reliability + coverage limits).
               </li>
@@ -234,8 +239,8 @@ export default function AboutPage() {
                 Permits reflect <b>approvals</b>, not completed construction.
               </li>
               <li>
-                If a strict time window can’t be enforced, results fall back to the most recent
-                records.
+                If a strict time window cannot be enforced, results fall back to the most recent
+                available records.
               </li>
               <li>Use linked city sources to verify named projects.</li>
             </ul>
@@ -265,13 +270,14 @@ export default function AboutPage() {
                 color: "#333333",
               }}
             >
-              View the project repository for implementation details, setup, and ongoing updates.
+              View the project repository for implementation details, architecture, and ongoing
+              development.
             </p>
 
             <a
               href={githubUrl}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               style={{
                 background: "#0b2e59",
                 color: "#ffffff",
